@@ -1,41 +1,18 @@
-# Lefthook configuration for Go projects
-# https://lefthook.dev/configuration/
-
 pre-commit:
   parallel: true
-  commands:
-    # Format Go code
-    fmt:
+  jobs:
+    - name: gofmt
       glob: "*.go"
-      run: go fmt ./...
-    
-    # Run go vet for static analysis
-    vet:
-      glob: "*.go"
-      run: go vet ./...
-    
-    # Run golangci-lint (install with: go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest)
-    lint:
-      glob: "*.go"
-      run: golangci-lint run --fix
-    
-    # Run tests for changed packages
-    test:
-      glob: "*.go"
-      run: go test -short ./...
+      run: gofmt -w {staged_files}
 
-    module-tidy:
-      glob: "*.go"
-      run: go mod tidy
+    - name: go vet
+      run: go vet ./...
 
 pre-push:
-  commands:
-    # Ensure go.mod and go.sum are clean
-    tidy:
-      run: |
-        go mod tidy
-        git diff --exit-code go.mod go.sum
-    
-    # Run all tests before push
-    test:
-      run: go test -race -coverprofile=coverage.out ./...
+  parallel: true
+  jobs:
+    - name: go test
+      run: go test ./...
+
+    - name: golangci-lint
+      run: golangci-lint run ./...

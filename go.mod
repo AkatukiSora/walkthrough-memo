@@ -1,8 +1,8 @@
 module github.com/AkatukiSora/walkthrough-memo
 
-go 1.25.5
-
 require github.com/rivo/tview v0.42.0
+
+go 1.24.11
 
 require (
 	github.com/gdamore/encoding v1.0.1 // indirect

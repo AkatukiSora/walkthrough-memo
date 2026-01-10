@@ -2,3 +2,21 @@
 go = "1.24"
 golangci-lint = "2.7"
 lefthook = "2.0"
+
+[tasks.format]
+description = "Format Go code"
+run = "go fmt ./..."
+alias = "f"
+
+[tasks.lint]
+description = "Lint Go code"
+run = "golangci-lint run"
+alias = "l"
+
+[tasks.test]
+description = "Run Go tests"
+run = "go test ./..."
+
+[tasks.build]
+description = "Build the Go project"
+run = "go build -o bin/myapp ./..."
